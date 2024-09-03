@@ -1,4 +1,4 @@
-module.export = (sequelize, Sequelize) => {
+module.exports = (sequelize, Sequelize) => {
     const Review = sequelize.define("review", {
         comentario: {
             type: Sequelize.STRING,
