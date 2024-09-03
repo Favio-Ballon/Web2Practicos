@@ -13,3 +13,10 @@ db.sequelize.sync({
 }).then(() => {
     console.log("db resync");
 });
+
+require('./routes')(app);
+
+
+app.listen(3000, function () {
+    console.log('Ingrese a http://localhost:3000')
+})
