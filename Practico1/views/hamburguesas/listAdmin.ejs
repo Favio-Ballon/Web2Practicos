@@ -5,8 +5,9 @@
 
                 <div class="card mt-3">
                     <div class="card-body">
-                        <div class="card-title">
-                            <h3>Lista de Restaurantes</h3>
+                        <div class="card-title hamburguesas-create">
+                            <h3>Lista de hamburguesas</h3>
+                            <a class="btn btn-primary" href="/restaurantes/<%= restauranteId %>/menu/create">Crear</a>
                         </div>
                         <div class="table-responsive">
                             <table class="table ">
@@ -14,36 +15,35 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Nombre</th>
-                                        <th>Direccion</th>
-                                        <th>Telefono</th>
-                                        <th></th>
-                                        <th></th>
+                                        <th>precio</th>
+                                        <th>descripcion</th>
+                                        <th>imagen</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% restaurantes.forEach(restaurante=> { %>
+                                    <% hamburguesas.forEach(hamburguesa=> { %>
                                         <tr>
                                             <td>
-                                                <%= restaurante.id %>
+                                                <%= hamburguesa.id %>
                                             </td>
                                             <td>
-                                                <%= restaurante.nombre %>
+                                                <%= hamburguesa.nombre %>
                                             </td>
                                             <td>
-                                                <%= restaurante.direccion %>
+                                                <%= hamburguesa.precio %>
                                             </td>
                                             <td>
-                                                <%= restaurante.telefono %>
+                                                <%= hamburguesa.descripcion %>
+                                            </td>
+                                            <td>
+                                                <img src="<%= hamburguesa.imagen %>" alt="imagen" width="100">
                                             </td>
                                             <td><a class="btn btn-primary"
-                                                    href="/restaurantes/<%= restaurante.id %>/menu">Menu</a></td>
+                                                    href="/restaurantes/<%= restauranteId %>/menu/<%= hamburguesa.id %>/edit">Editar</a></td>
                                             <td>
-                                            <td><a class="btn btn-primary"
-                                                    href="/restaurantes/<%= restaurante.id %>/edit">Editar</a></td>
-                                            <td>
-                                                <form method="post" action="/restaurantes/<%= restaurante.id %>/delete"
+                                                <form method="post" action="/restaurantes/<%= restauranteId %>/menu/<%= hamburguesa.id %>/delete"
                                                     onsubmit="return confirm('Está seguro que desea eliminar?')">
                                                     <input class="btn btn-danger" type="submit" value="Eliminar">
                                                 </form>

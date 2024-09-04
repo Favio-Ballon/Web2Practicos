@@ -1,0 +1,44 @@
+<%- include('../../components/header.ejs') %>
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-6 col-md-8 col-sm-10 col-xxl-4">
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Formulario de hamburguesas</h5>
+                        <form method="post" action="<% if (hamburguesa) { %>
+                /restaurantes/<%= hamburguesa.restauranteId%>/menu/<%=hamburguesa.id%>/edit
+            <% } else{%>
+                /restaurantes/<%= restauranteId %>/menu/create
+                <% } %>">
+                            <div class="mt-2">
+                                <label>Nombre</label>
+                                <input class="form-control" type="text" name="nombre" placeholder="Nombre"
+                                    value="<%=hamburguesa && hamburguesa.nombre %>">
+                            </div>
+                            <div class="mt-2">
+                                <label>Precio</label>
+                                <input class="form-control" type="text" name="precio" placeholder="precio"
+                                    value="<%=hamburguesa && hamburguesa.precio %>">
+                            </div>
+                            <div class="mt-2">
+                                <label>Descripcion</label>
+                                <input class="form-control" type="text" name="descripcion" placeholder="descripcion"
+                                    value="<%=hamburguesa && hamburguesa.descripcion %>">
+                            </div>
+                            <div class="mt-2">
+                                <label>Imagen</label>
+                                <input class="form-control" type="text" name="imagen" placeholder="imagen"
+                                    value="<%=hamburguesa && hamburguesa.imagen %>">
+                            </div>
+                            <div class="mt-2">
+                                <input class="btn btn-primary" type="submit" value="Enviar">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../../components/footer.ejs') %>
