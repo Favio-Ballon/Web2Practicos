@@ -87,3 +87,44 @@ exports.deleteHamburguesa = async function (req, res) {
         });
     }
 };
+
+exports.uploadPhotoGet = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const hamburguesa = await db.hamburguesa.findByPk(id);
+        res.render("hamburguesas/uploadPhoto.ejs", { hamburguesa: hamburguesa, errors: null });
+    } catch (err) {
+        res.status(500).send({
+            message: err.message || "Error al subir la foto.",
+        });
+    }
+}
+
+exports.uploadPhotoPost = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const hamburguesa = await db.hamburguesa.findByPk(id);
+        if (!req.files?.photo) {
+            res.render('hamburguesas/uploadProfile.ejs', { errors: { message: 'Debe seleccionar una imagen' }, hamburguesa });
+            return;
+        }
+        const image = req.files.photo;
+        // eslint-disable-next-line no-undef
+        const path = __dirname + '/../public/images/profile/' + persona.id + '.jpg';
+
+        image.mv(path, function (err) {
+            if (err) {
+                res.render('hamburguesas/uploadProfile.ejs', { errors: { message: 'Error al subir la imagen' }, hamburguesa });
+                console.log(err);
+                return;
+            }
+            res.redirect('/hamburguesas');
+        });
+    } catch (err) {
+        res.status(500).send({
+            message: err.message || "Error al subir la foto.",
+        });
+    }
+}
+    
+

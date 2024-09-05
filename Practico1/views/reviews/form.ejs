@@ -1,0 +1,67 @@
+<%- include('../../components/header.ejs') %>
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-6 col-md-8 col-sm-10 col-xxl-4">
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Formulario de reviews</h5>
+                        <form method="post" action="<% if (review) { %>
+                /reviews/<%=review.id%>/edit
+            <% } else{%>
+                /reviews/create
+                <% } %>">
+                            <div class="mt-2">
+                                <label>Puntaje</label>
+                                <!-- que solo se pueda elegir udel 1 al 5 -->
+                                <select required name="puntuacion" class="form-select">
+                                    <option value="">Seleccione un puntaje</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                </select>
+                            </div>
+                            <div class="mt-2">
+                                <label>Comentario</label>
+                                <input class="form-control" type="text" name="comentario" placeholder="comentario"
+                                    value="<%=review && review.comentario %>">
+                            </div>
+                            <div class="mt-2">
+                                <label>Hamburguesa</label>
+                                <select required name="hamburguesaId" class="form-select">
+                                    <option value="">Seleccione una hamburguesa</option>
+                                    <% hamburguesas.forEach(hamburguesa=> { %>
+                                        <option value="<%=hamburguesa.id %>" <%=(review && review.hamburguesaId==hamburguesa.id)
+                                            && "selected" %>>
+                                            <%=hamburguesa.nombre %>
+                                        </option>
+                                        <% }) %>
+
+                                </select>
+                            </div>
+                            <div class="mt-2">
+                                <label>Usuario</label>
+                                <select required name="usuarioId" class="form-select">
+                                    <option value="">Seleccione una usuario</option>
+                                    <% usuarios.forEach(usuario=> { %>
+                                        <option value="<%=usuario.id %>" <%=(review && review.usuarioId==usuario.id)
+                                            && "selected" %>>
+                                            <%=usuario.nombre %>
+                                        </option>
+                                        <% }) %>
+
+                                </select>
+                            </div>
+                            <div class="mt-2">
+                                <input class="btn btn-primary" type="submit" value="Enviar">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../../components/footer.ejs') %>

@@ -14,7 +14,7 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.personas = require("./usuario.model.js")(sequelize, Sequelize);
+db.usuario = require("./usuario.model.js")(sequelize, Sequelize);
 db.restaurante = require("./restaurante.model.js")(sequelize, Sequelize);
 db.hamburguesa = require("./hamburguesa.model.js")(sequelize, Sequelize);
 db.review = require("./review.model.js")(sequelize, Sequelize);
@@ -34,8 +34,8 @@ db.review.belongsTo(db.hamburguesa, {
 });
 
 // usuario tiene n reviews
-db.personas.hasMany(db.review, { as: "reviews" });
-db.review.belongsTo(db.personas, {
+db.usuario.hasMany(db.review, { as: "reviews" });
+db.review.belongsTo(db.usuario, {
     foreignKey: "usuarioId",
     as: "usuario",
 });
