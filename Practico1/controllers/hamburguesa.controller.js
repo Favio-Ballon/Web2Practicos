@@ -80,10 +80,30 @@ exports.updateHamburguesa = async (req, res) => {
         const id = req.params.id;
         const hamburguesa = await db.hamburguesa.findByPk(id);
 
+        if (!req.files?.photo) {
+            //TODO
+        }else{
+    
+        console.log(req.body);
+        const image = req.files.photo;
+            // eslint-disable-next-line no-undef
+        const path = __dirname + '/../public/images/hamburguesas/' + req.body.nombre + '.jpg';
+    
+        const pathImage = '/images/hamburguesas/' + req.body.nombre + '.jpg';
+    
+        image.mv(path, function (err) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+        });
+
+        hamburguesa.imagen = pathImage;
+    }
+
         hamburguesa.nombre = req.body.nombre;
         hamburguesa.precio = req.body.precio;
         hamburguesa.descripcion = req.body.descripcion;
-        hamburguesa.imagen = req.body.imagen;
 
         await hamburguesa.save();
         res.redirect("/restaurantes/" + hamburguesa.restauranteId + "/menu");
