@@ -1,10 +1,17 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload');
 const app = express()
+
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
+
+
+app.use(fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+}));
 
 const db = require("./models");
 
@@ -14,7 +21,11 @@ db.sequelize.sync({
     console.log("db resync");
 });
 
+
+
 require('./routes')(app);
+
+
 
 
 app.listen(3000, function () {

@@ -9,6 +9,9 @@ module.exports = (sequelize, Sequelize) => {
         telefono: {
             type: Sequelize.STRING,
         },
+        imagen: {
+            type: Sequelize.STRING
+        },
     });
     return Restaurante;
 }

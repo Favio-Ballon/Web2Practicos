@@ -7,7 +7,7 @@
                 <div class="card mt-3">
                     <div class="card-body">
                         <h5 class="card-title">Formulario de restaurantes</h5>
-                        <form method="post" action="<% if (restaurante) { %>
+                        <form method="post" enctype="multipart/form-data" action="<% if (restaurante) { %>
                 /restaurantes/<%=restaurante.id%>/edit
             <% } else{%>
                 /restaurantes/create
@@ -26,6 +26,21 @@
                                 <label>Telefono</label>
                                 <input class="form-control" type="text" name="telefono" placeholder="telefono"
                                     value="<%=restaurante && restaurante.telefono %>">
+                            </div>
+                            <div class="mt-2">
+                                <div>
+                                    <% if (restaurante) { %>
+                                    <img src="<%= restaurante.imagen %>" alt="Foto de restaurante"
+                                        class="img-fluid" />
+                                        <% } else{%>
+                                            <img src="/images/restaurantes/default.jpg" alt="Foto de restaurante"
+                                        class="img-fluid" />
+                                            <% } %>
+                                </div>
+                                <div class="mt-2 has-validation">
+                                    <label>Logo del restaurante</label>
+                                    <input required class="form-control" type="file" name="photo" />
+                                </div>
                             </div>
                             <div class="mt-2">
                                 <input class="btn btn-primary" type="submit" value="Enviar">

@@ -27,12 +27,31 @@ exports.createHamburguesa = async (req, res) => {
 exports.insertHamburguesa = async (req, res) => {
     const restauranteId = req.params.restauranteId;
     console.log(restauranteId);
+
+    if (!req.files?.photo) {
+        //TODO
+    }
+
+    console.log(req.body);
+    const image = req.files.photo;
+        // eslint-disable-next-line no-undef
+    const path = __dirname + '/../public/images/hamburguesas/' + req.body.nombre + '.jpg';
+
+    const pathImage = '/images/hamburguesas/' + req.body.nombre + '.jpg';
+
+    image.mv(path, function (err) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+    });
+
     try {
         db.hamburguesa.create({
             nombre: req.body.nombre,
             precio: req.body.precio,
             descripcion: req.body.descripcion,
-            imagen: req.body.imagen,
+            imagen: pathImage,
             restauranteId: restauranteId
         }).then(() => {
             res.redirect("/restaurantes/" + restauranteId + "/menu");

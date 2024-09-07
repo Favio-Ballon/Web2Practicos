@@ -1,3 +1,4 @@
+
 <%- include('../../components/header.ejs') %>
     <div class="container">
         <div class="row">
@@ -12,6 +13,7 @@
                             <table class="table ">
                                 <thead class="table-dark">
                                     <tr>
+                                        <th></th>
                                         <th>Id</th>
                                         <th>Nombre</th>
                                         <th>Direccion</th>
@@ -25,6 +27,9 @@
                                 <tbody>
                                     <% restaurantes.forEach(restaurante=> { %>
                                         <tr>
+                                            <td>
+                                                <img src="<%= restaurante.imagen %>" alt="imagen" width="100">
+                                            </td>
                                             <td>
                                                 <%= restaurante.id %>
                                             </td>

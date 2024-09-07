@@ -12,16 +12,48 @@ exports.listRestaurante = async (req, res) => {
     }
 };
 
+exports.listRestauranteUsuario = async (req, res) => {
+    try {
+        db.restaurante.findAll().then((restaurantes) => {
+            res.render("restaurantes/list.ejs", { restaurantes: restaurantes });
+        });
+    } catch (err) {
+        res.status(500).send({
+            message: err.message || "Error al obtener los restaurantes.",
+        });
+    }
+};
+
 exports.createRestaurante = async (req, res) => {
     res.render("restaurantes/form.ejs", { restaurante: null });
 }
 
 exports.insertRestaurante = async (req, res) => {
+
+    if (!req.files?.photo) {
+        //TODO
+    }
+
+    console.log(req.body);
+    const image = req.files.photo;
+        // eslint-disable-next-line no-undef
+    const path = __dirname + '/../public/images/restaurantes/' + req.body.nombre + '.jpg';
+
+    const pathImage = '/images/restaurantes/' + req.body.nombre + '.jpg';
+
+    image.mv(path, function (err) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+    });
+
     try {
         db.restaurante.create({
             nombre: req.body.nombre,
             direccion: req.body.direccion,
-            telefono: req.body.telefono
+            telefono: req.body.telefono,
+            imagen: pathImage
         }).then(() => {
             res.redirect("/restaurantes");
         });
@@ -47,9 +79,31 @@ exports.editRestaurante = async (req, res) => {
 }
 
 exports.updateRestaurante = async (req, res) => {
+
     try {
         const id = req.params.id;
         const restaurante = await db.restaurante.findByPk(id);
+
+        if (!req.files?.photo) {
+            //TODO
+        }else{
+    
+        console.log(req.body);
+        const image = req.files.photo;
+            // eslint-disable-next-line no-undef
+        const path = __dirname + '/../public/images/restaurantes/' + req.body.nombre + '.jpg';
+    
+        const pathImage = '/images/restaurantes/' + req.body.nombre + '.jpg';
+    
+        image.mv(path, function (err) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+        });
+
+        restaurante.imagen = pathImage;
+    }
 
         restaurante.nombre = req.body.nombre;
         restaurante.direccion = req.body.direccion; 

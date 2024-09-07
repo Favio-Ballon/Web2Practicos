@@ -1,0 +1,37 @@
+<%- include('../../components/headerUsuario.ejs') %>
+
+<main class="container my-4">
+    <!-- Descripción de Burger Week -->
+    <section class="text-center mb-4">
+        <h1 class="display-4">¿Qué es Burger Week?</h1>
+        <p class="lead">
+            ¡Bienvenidos a Burger Week! Una semana dedicada a los amantes de las hamburguesas, donde los mejores 
+            restaurantes de la ciudad presentan sus creaciones más deliciosas. Explora nuevos sabores, encuentra tus
+            hamburguesas favoritas y disfruta de ofertas exclusivas durante todo el evento.
+        </p>
+    </section>
+
+    <!-- Lista de restaurantes -->
+    <div class="row">
+        <% if (restaurantes.length > 0) { %>
+            <% restaurantes.forEach(restaurante => { %>
+                <div class="col-sm-6 col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="<%= restaurante.imagen %>" class="card-img-top" alt="Imagen de <%= restaurante.nombre %>" loading="lazy">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary font-weight-bold"><%= restaurante.nombre %></h5>
+                            <p class="card-text"><strong>Dirección:</strong> <%= restaurante.direccion %></p>
+                            <p class="card-text"><strong>Teléfono:</strong> <%= restaurante.telefono %></p>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <div class="col-12">
+                <p class="text-center text-muted">No hay restaurantes disponibles en este momento.</p>
+            </div>
+        <% } %>
+    </div>
+</main>
+
+<%- include('../../components/footer.ejs') %>
