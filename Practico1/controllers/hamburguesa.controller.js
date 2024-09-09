@@ -21,15 +21,25 @@ exports.listHamburguesas = async (req, res) => {
 
 exports.createHamburguesa = async (req, res) => {
     const restauranteId = req.params.restauranteId;
-    res.render("hamburguesas/form.ejs", { hamburguesa: null, restauranteId: restauranteId });
+    res.render("hamburguesas/form.ejs", { hamburguesa: null, restauranteId: restauranteId, errors: null });
 }
 
 exports.insertHamburguesa = async (req, res) => {
+
+    const validacion = validateHamburguesaForm(req);
+
+    if (validacion.errors) {
+        res.render('hamburguesas/form.ejs', { hamburguesa: validacion.hamburguesa, errors: validacion.errors });
+        return;
+    }
+
     const restauranteId = req.params.restauranteId;
     console.log(restauranteId);
 
     if (!req.files?.photo) {
-        //TODO
+        return res.status(400).send({
+            message: "Debe seleccionar una imagen",
+        });
     }
 
     console.log(req.body);
@@ -68,7 +78,7 @@ exports.editHamburguesa = async (req, res) => {
         const id = req.params.id;
         const hamburguesa = await db.hamburguesa.findByPk(id);
 
-        res.render("hamburguesas/form.ejs", { hamburguesa: hamburguesa });
+        res.render("hamburguesas/form.ejs", { hamburguesa: hamburguesa, errors: null });
     } catch (err) {
         res.status(500).send({
             message: err.message || "Error al editar la hamburguesa.",
@@ -77,6 +87,11 @@ exports.editHamburguesa = async (req, res) => {
 }
 exports.updateHamburguesa = async (req, res) => {
     try {
+        const validacion = validateHamburguesaForm(req);
+        if (validacion.errors) {
+            res.render('hamburguesas/form.ejs', { hamburguesa: validacion.hamburguesa, errors: validacion.errors });
+            return;
+        }
         const id = req.params.id;
         const hamburguesa = await db.hamburguesa.findByPk(id);
 
@@ -166,4 +181,57 @@ exports.uploadPhotoPost = async (req, res) => {
     }
 }
     
+exports.hamburguesaDetail = async (req, res) => {
+    try {
+        let isReviewed = false;
+        const usuario = req.session.usuario;
+        const id = req.params.id;
 
+        if (usuario) {
+            const review = await db.review.findOne({
+                where: {
+                    usuarioId: usuario.id,
+                    hamburguesaId: id
+                }
+            });
+            if (review) {
+                isReviewed = true;
+            }
+        }
+
+        db.hamburguesa.findByPk(id, {
+            include: [{
+                model: db.review,
+                as: 'reviews',
+                include: [{
+                    model: db.usuario,
+                    as: 'usuario'
+                }]
+            }]
+        }).then((hamburguesa) => {
+            res.render("hamburguesas/detail.ejs", { hamburguesa: hamburguesa, usuario: usuario, isReviewed: isReviewed });
+        });
+    } catch (err) {
+        res.status(500).send({
+            message: err.message || "Error al obtener la hamburguesa.",
+        });
+    }
+}
+
+const validateHamburguesaForm = function (req) {
+    if (!req.body.nombre || !req.body.precio || !req.body.descripcion) {
+        const errors = {
+            nombre: !req.body.nombre,
+            precio: !req.body.precio,
+            descripcion: !req.body.descripcion
+        };
+        errors.message = 'Todos los campos son obligatorios';
+        const hamburguesa = {
+            nombre: req.body.nombre,
+            precio: req.body.precio,
+            descripcion: req.body.descripcion
+        };
+        return { errors, hamburguesa };
+    }
+    return { errors: null, hamburguesa: null };
+}

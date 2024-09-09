@@ -1,0 +1,74 @@
+<%- include('../../components/headerUsuario.ejs') %>
+
+    <main class="container my-4">
+
+        <div style="display: flex;  justify-content: space-between;">
+            <h1 class="text-center mb-4">
+                <%= hamburguesa.nombre %>
+            </h1>
+
+            <div class="d-flex align-items-center justify-content-center">
+                <% if (isReviewed) { %>
+                    <a class="btn btn-primary disabled" tabindex="-1" aria-disabled="true">
+                        Reviewed
+                    </a>
+                <% } else { %>
+                    <a href="/hamburguesa/<%= hamburguesa.id %>/review" class="btn btn-primary">
+                        Review
+                    </a>
+                <% } %>
+            </div>
+            
+        </div>
+        <div class="card mb-4">
+            <div class="row no-gutters">
+                <div class="col-md-6">
+                    <img src="<%= hamburguesa.imagen %>" class="card-img" alt="Imagen de <%= hamburguesa.nombre %>">
+                </div>
+                <div class="col-md-6 position-relative"> <!-- Posición relativa para colocar el botón -->
+                    <div class="card-body">
+                        <h3 class="card-title">Descripción</h3>
+                        <p class="card-text">
+                            <%= hamburguesa.descripcion %>
+                        </p>
+
+                        <h3 class="card-title">Precio</h3>
+                        <p class="card-text">$<%= hamburguesa.precio %>
+                        </p>
+                    </div>
+
+                    <section class="mt-4">
+                        <h2>Reseñas</h2>
+                        <div class="list-group overflow-auto" style="max-height: 250px;">
+                            <% if (hamburguesa.reviews.length > 0) { %>
+                                <% hamburguesa.reviews.forEach((review, index) => { %>
+                                    <div class="list-group-item">
+                                        <!-- Static stars based on review.puntuacion -->
+
+                                        <div>
+                                            <% for (let i = 1; i <= 5; i++) { %>
+                                                <% if (review.puntuacion >= i) { %>
+                                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                               <% } else { %>
+                                                <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
+                                                <% } %>
+                                            <% } %>
+                                        </div>
+                                        <p class="mb-1">
+                                            <%= review.comentario %>
+                                        </p>
+                                        <small>Por: <%= review.usuario.nombre %></small> <!-- Nombre del autor -->
+                                    </div>
+                                <% }) %>
+                            <% } else { %>
+                                <p class="text-muted">Aún no hay reseñas para esta hamburguesa.</p>
+                            <% } %>
+                        </div>
+                    </section>
+                    
+            </div>
+        </div>
+        </div>
+    </main>
+
+    <%- include('../../components/footer.ejs') %>

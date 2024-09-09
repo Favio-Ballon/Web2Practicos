@@ -16,16 +16,31 @@
                                 <label>Nombre</label>
                                 <input class="form-control" type="text" name="nombre" placeholder="Nombre"
                                     value="<%=hamburguesa && hamburguesa.nombre %>">
+                                    <% if (errors?.nombre) { %>
+                                        <div class="error-label text-danger mt-1">
+                                            Por favor ingrese un nombre
+                                        </div>
+                                    <% } %>
                             </div>
                             <div class="mt-2">
                                 <label>Precio</label>
                                 <input class="form-control" type="text" name="precio" placeholder="precio"
                                     value="<%=hamburguesa && hamburguesa.precio %>">
+                                    <% if (errors?.precio) { %>
+                                        <div class="error-label text-danger mt-1">
+                                            Por favor ingrese un precio
+                                        </div>
+                                    <% } %>
                             </div>
                             <div class="mt-2">
                                 <label>Descripcion</label>
                                 <input class="form-control" type="text" name="descripcion" placeholder="descripcion"
                                     value="<%=hamburguesa && hamburguesa.descripcion %>">
+                                    <% if (errors?.descripcion) { %>
+                                        <div class="error-label text-danger mt-1">
+                                            Por favor ingrese una descripcion
+                                        </div>
+                                    <% } %>
                             </div>
                             <div class="mt-2">
                                 <div>
@@ -41,6 +56,11 @@
                                     <label>Foto de hamburguesa</label>
                                     <input required class="form-control" type="file" name="photo" />
                                 </div>
+                                <% if (errors?.imagen) { %>
+                                    <div class="error-label text-danger mt-1">
+                                        Por favor ingrese una imagen
+                                    </div>
+                                <% } %>
                             </div>
                             <div class="mt-2">
                                 <input class="btn btn-primary" type="submit" value="Enviar">

@@ -1,0 +1,36 @@
+<%- include('../../components/headerUsuario.ejs') %>
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="row justify-content-center w-100">
+            <div class="col-lg-6 col-md-8 col-sm-10 col-xxl-4">
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Review</h5>
+                        <form method="post" action="<% if (review) { %> /reviews/<%=review.id%>/edit <% } else { %> /hamburguesa/<%= hamburguesaId %>/review <% } %>">
+                            <div class="mt-2 text-center">
+
+                                <fieldset class="rating">
+                                    <input type="radio" id="star5" name="puntuacion" value="5" />
+                                    <label for="star5" title="5 stars">★</label>
+                                    <input type="radio" id="star4" name="puntuacion" value="4" />
+                                    <label for="star4" title="4 stars">★</label>
+                                    <input type="radio" id="star3" name="puntuacion" value="3" />
+                                    <label for="star3" title="3 stars">★</label>
+                                    <input type="radio" id="star2" name="puntuacion" value="2" />
+                                    <label for="star2" title="2 stars">★</label>
+                                    <input type="radio" id="star1" name="puntuacion" value="1" />
+                                    <label for="star1" title="1 star">★</label>
+                                </fieldset>
+                            </div>
+                            <div class="mt-2">
+                                <input class="form-control" type="text" name="comentario" placeholder="Comentario" value="<%= review && review.comentario %>">
+                            </div>
+                            <div class="mt-4 text-center">
+                                <input class="btn btn-primary" type="submit" value="Enviar">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<%- include('../../components/footer.ejs') %>
