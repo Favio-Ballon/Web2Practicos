@@ -13,7 +13,7 @@ module.exports = app => {
     router.post("/register", controllerUsuario.insertUsuario);
     router.get("/logout", controllerUsuario.logout);
 
-    router.get("/", controller.listRestauranteUsuario);
+    router.get("/", controller.listRestauranteUsuario)
     router.get("/:restauranteId", controller.menuRestaurante);
     router.get("/hamburguesa/:id", controllerHamburguesa.hamburguesaDetail);
 

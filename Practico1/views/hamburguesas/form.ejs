@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="mt-2 has-validation">
                                     <label>Foto de hamburguesa</label>
-                                    <input required class="form-control" type="file" name="photo" />
+                                    <input <% if(!hamburguesa){ %> required <% } %> class="form-control" type="file" name="photo" />
                                 </div>
                                 <% if (errors?.imagen) { %>
                                     <div class="error-label text-danger mt-1">
