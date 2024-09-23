@@ -70,7 +70,6 @@ exports.createReview = async function (req, res) {
 
 exports.insertReview = async function (req, res) {
     try {
-        //calificacion a int
         const puntuacion = parseInt(req.body.puntuacion);
         const id = req.params.id;
         const usuario = req.session.usuario;
