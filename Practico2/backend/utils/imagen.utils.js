@@ -1,7 +1,7 @@
 module.exports = {
-    uploadImage: (image, nombre) => {
-        const path = __dirname + '/../public/images/reparto/' + nombre + '.jpg';
-        const pathImage = '/images/reparto/' + nombre + '.jpg';
+    uploadImage: (image, nombre, destino) => {
+        const path = __dirname + '/../public/images/'+ destino +'/' + nombre + '.jpg';
+        const pathImage = '/images/'+ destino +'/' + nombre + '.jpg';
 
         image.mv(path, function (err) {
             if (err) {

@@ -5,15 +5,15 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false
         },
         sinopsis: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
             allowNull: false
         },
         imagen: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
             allowNull: false
         },
         fechaLanzamiento: {
-            type: Sequelize.STRING,
+            type: Sequelize.DATE,
             allowNull: false
         },
         calificacion: {

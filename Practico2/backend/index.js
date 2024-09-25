@@ -12,16 +12,18 @@ app.use(express.static('public'));
 
 app.use(fileUpload({
     limits: { fileSize: 50 * 1024 * 1024 },
+    abortOnLimit: true,
+    responseOnLimit: 'File size limit has been reached'
 }));
 
 const db = require("./models");
 db.sequelize.sync({
-    force: true // drop tables and recreate
+    //force: true // drop tables and recreate
 }).then(() => {
     console.log("db resync");
 });
 
-//require('./routes')(app);
+require('./routes')(app);
 
 app.listen(3000, function () {
     console.log('Ingrese a http://localhost:3000')

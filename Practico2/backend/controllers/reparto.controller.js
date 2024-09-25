@@ -1,121 +1,132 @@
-const db = require("../models");    
+const db = require("../models");
 const { isRequestValid } = require("../utils/request.utils");
+const { uploadImage } = require("../utils/imagen.utils");
+//import 
 
-exports.listReparto = (req, res) => {
-    try{
-        const repartos = db.repartos.findAll();
-        res.json(repartos);
-    } catch (error) {
-        sendError500(error);
-    }     
-}
-
-exports.createReparto = (req, res) => {
-    const requiredFields = ['nombre', 'foto'];
-        if (!isRequestValid(requiredFields, req.body, res)) {
-            return;
-        }
-    //agregamos foto y guardamos la ruta
-    const image = req.files.photo;
-
-    const path = __dirname + '/../public/images/reparto/' + req.body.nombre + '.jpg';
-
-    const pathImage = '/images/reparto/' + req.body.nombre + '.jpg';
-
-    image.mv(path, function (err) {
-        if (err) {
-            console.log(err);
-            res.status(500).json({
-                msg: 'Error al subir la imagen'
+exports.listReparto = async (req, res) => {
+    try {
+        const repartos = await db.repartos.findAll();
+        if (!repartos) {
+            res.status(404).json({
+                msg: 'Repartos no encontrados'
             });
             return;
         }
-    });
+        res.json(repartos);
+    } catch (error) {
+        sendError500(error);
+    }
+}
+
+exports.getRepartoById = async (req, res) => {
+    try {
+        const reparto = await db.repartos.findByPk(req.params.id);
+        if (!reparto) {
+            res.status(404).json({
+                msg: 'Reparto no encontrado'
+            });
+            return;
+        }
+        res.json(reparto);
+    } catch (error) {
+        sendError500(error);
+    }
+}
+
+exports.createReparto = async (req, res) => {
+    const requiredFields = ['nombre'];
+    if (!isRequestValid(requiredFields, req.body, res)) {
+        return;
+    }
     
-    try{
+    if(!req.files){
+        res.status(400).json({
+            msg: 'No se ha enviado la imagen'
+        });
+        return;
+    }
+    
+    const image = req.files.foto;
+
+    //si no hay foto se devuelve un error
+    if (!image) {
+        res.status(400).json({
+            msg: 'No se ha enviado la imagen'
+        });
+        return;
+    }
+
+    const pathImage = uploadImage(image, req.body.nombre, 'reparto');
+    
+
+    try {
         const reparto = {
             nombre: req.body.nombre,
             foto: pathImage
         };
-        const repartoCreado = db.repartos.create(reparto);
-        
+        const repartoCreado = await db.repartos.create(reparto);
+
         res.status(201).json(repartoCreado);
     } catch (error) {
         sendError500(error);
     }
 }
 
-exports.getRepartoById = (req, res) => {
-    try{
-        const reparto = db.repartos.findByPk(req.params.id);
-        if(!reparto){
-            res.status(404).json({
-                msg: 'Reparto no encontrado'
-            });
-            return;
-        }
-        res.json(reparto);
-    } catch (error) {
-        sendError500(error);
-    }
-}
-
-exports.updateRepartoPut = (req, res) => {
-    const requiredFields = ['nombre', 'foto'];
+exports.updateRepartoPut = async (req, res) => {
+    const requiredFields = ['nombre'];
     if (!isRequestValid(requiredFields, req.body, res)) {
         return;
     }
 
     //actualizamos foto y guardamos la ruta
-    const image = req.files.photo;
 
-    const path = __dirname + '/../public/images/reparto/' + req.body.nombre + '.jpg';
 
-    const pathImage = '/images/reparto/' + req.body.nombre + '.jpg';
+    try {
+        const reparto = await db.repartos.findByPk(req.params.id);
 
-    image.mv(path, function (err) {
-        if (err) {
-            console.log(err);
-            res.status(500).json({
-                msg: 'Error al subir la imagen'
-            });
-            return;
+        if (req.files) {
+            const image = req.files.foto;
+            if(image){
+                const pathImage = uploadImage(image, req.body.nombre, 'reparto');
+                reparto.foto = pathImage;
+            }
         }
-    });
-
-    try{
-        const reparto = db.repartos.findByPk(req.params.id);
-        if(!reparto){
+        if (!reparto) {
             res.status(404).json({
                 msg: 'Reparto no encontrado'
             });
             return;
         }
+        console.log(reparto);
         reparto.nombre = req.body.nombre;
-        reparto.foto = pathImage;
-        reparto.save();
+        await reparto.save();
         res.json(reparto);
     } catch (error) {
         sendError500(error);
     }
 }
 
-exports.updateRepartoPatch = (req, res) => {
-    
-    try{
-        const reparto = db.repartos.findByPk(req.params.id);
-        if(!reparto){
+
+exports.deleteReparto = async (req, res) => {
+    try {
+        const reparto = await db.repartos.findByPk(req.params.id);
+        if (!reparto) {
             res.status(404).json({
                 msg: 'Reparto no encontrado'
             });
             return;
         }
-        reparto.nombre = req.body.nombre;
-        reparto.foto = req.body.foto;
-        reparto.save();
+        await reparto.destroy();
         res.json(reparto);
     } catch (error) {
         sendError500(error);
     }
+}
+
+function sendError500(error) {
+    console.log(error);
+    res.status(500).json({
+        msg: 'Error en el servidor'
+    });
 }
 
