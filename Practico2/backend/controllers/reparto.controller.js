@@ -34,6 +34,7 @@ exports.getRepartoById = async (req, res) => {
 }
 
 exports.createReparto = async (req, res) => {
+    console.log(req.body);
     const requiredFields = ['nombre'];
     if (!isRequestValid(requiredFields, req.body, res)) {
         return;

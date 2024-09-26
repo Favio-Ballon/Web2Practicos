@@ -1,7 +1,6 @@
 module.exports = {
     uploadImage: (image, nombre, destino) => {
         const path = __dirname + '/../public/images/'+ destino +'/' + nombre + '.jpg';
-        const pathImage = '/images/'+ destino +'/' + nombre + '.jpg';
 
         image.mv(path, function (err) {
             if (err) {
@@ -13,6 +12,6 @@ module.exports = {
             }
         });
 
-        return pathImage;
+        return nombre + '.jpg';
     }
 }

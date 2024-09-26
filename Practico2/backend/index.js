@@ -1,4 +1,5 @@
 const express = require('express')
+var cors = require('cors')
 const bodyParser = require('body-parser')
 const app = express()
 const fileUpload = require('express-fileupload');
@@ -7,6 +8,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+
+var corsOptions = {
+    origin: 'http://localhost:5173',
+}
+
+app.use(cors(corsOptions))
 
 app.use(express.static('public'));
 
