@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Container, Row, Col, Image } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import HeaderAdmin from './components/headerAdmin';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+import UserHeader from './components/header';
+
+
 
 
 const PeliculaDetalle = () => {
@@ -36,7 +39,7 @@ const PeliculaDetalle = () => {
 
     return (
         <>
-            <HeaderAdmin />
+            <UserHeader />
             <Container className="mt-3 mb-3">
                 <Card>
                     <Card.Body>
@@ -89,7 +92,8 @@ const PeliculaDetalle = () => {
                         <Row >
                             {/* Tarjeta del Director */}
                             <Col xs={6} sm={4} md={3} lg={3} className="mb-4">
-                                    <Card.Title>Director</Card.Title>
+                                <Card.Title>Director</Card.Title>
+                                <Link style={{textDecoration: 'none'}} to={"/reparto/" + pelicula.director?.id}>
                                     <Card className="border-0" style={{ width: 'fit-content', margin: 'auto' }}>
                                         <Image
                                             src={`http://localhost:3000/images/reparto/${pelicula.director?.foto}`}
@@ -104,7 +108,8 @@ const PeliculaDetalle = () => {
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
-                                </Col>
+                                </Link>
+                            </Col>
                         </Row>
 
                         {/* Tarjeta del Reparto */}
@@ -112,6 +117,7 @@ const PeliculaDetalle = () => {
                             <Card.Title>Reparto</Card.Title>
                             {pelicula.repartos?.map((actor) => (
                                 <Col key={actor.id} xs={6} sm={4} md={3} lg={3} className="mb-4">
+                                    <Link style={{textDecoration: 'none'}} className='' to={"/reparto/" + actor?.id}>
                                     <Card className="border-0" style={{ width: 'fit-content', margin: 'auto' }}>
                                         <Image
                                             src={`http://localhost:3000/images/reparto/${actor?.foto}`}
@@ -126,6 +132,7 @@ const PeliculaDetalle = () => {
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
+                                    </Link>
                                 </Col>
                             ))}
 

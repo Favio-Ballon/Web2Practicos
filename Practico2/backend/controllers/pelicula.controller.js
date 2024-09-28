@@ -31,6 +31,7 @@ exports.getPeliculaById = async (req, res) => {
 }
 
 exports.createPelicula = async (req, res) => {
+    console.log(req.body);
     const requiredFields = ['nombre', 'sinopsis','fechaLanzamiento','calificacion', 'trailer', 'director_id','repartos'];
         if (!isRequestValid(requiredFields, req.body, res)) {
             return;

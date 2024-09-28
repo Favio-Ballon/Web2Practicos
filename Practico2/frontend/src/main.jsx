@@ -9,6 +9,7 @@ import ListaRepartos from './ListReparto';
 import ListaPeliculas from './ListPelicula';
 import FormPelicula from './FormPelicula';
 import PeliculaDetalle from './peliculaDetalle.jsx';
+import RepartoDetalle from './RepartoDetalle.jsx';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
   {
     path: "/pelicula/edit/:id",
     element: <FormPelicula />
+  },
+  {
+    path: "/reparto/:id",
+    element: <RepartoDetalle/>
   }
 ]);
 createRoot(document.getElementById('root')).render(

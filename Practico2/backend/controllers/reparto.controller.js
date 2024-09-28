@@ -20,7 +20,9 @@ exports.listReparto = async (req, res) => {
 
 exports.getRepartoById = async (req, res) => {
     try {
-        const reparto = await db.repartos.findByPk(req.params.id);
+        const reparto = await db.repartos.findByPk(req.params.id,{
+            include: ['peliculas']
+        });
         if (!reparto) {
             res.status(404).json({
                 msg: 'Reparto no encontrado'

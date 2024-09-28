@@ -20,7 +20,7 @@ const FormPelicula = () => {
 
     useEffect(() => {
         getListaReparto();
-    }, []);
+    }, [selectedReparto]);
 
     useEffect(() => {
         if (!id) return;
@@ -29,7 +29,7 @@ const FormPelicula = () => {
 
     useEffect(() => {
         filterReparto();
-    }, [selectedReparto]);
+    }, [repartoList]);
 
     const getPeliculaById = () => {
         axios.get(`http://localhost:3000/pelicula/${id}`)
@@ -78,6 +78,8 @@ const FormPelicula = () => {
         formData.append('trailer', trailer);
         formData.append('director_id', director_id);
         formData.append('repartos', actores);
+
+        console.log(fechaLanzamiento);
 
         if (!id) {
             axios.post('http://localhost:3000/pelicula/create', formData, {

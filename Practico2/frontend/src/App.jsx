@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import { Link } from "react-router-dom";
-import HeaderAdmin from './components/headerAdmin';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import UserHeader from './components/header';
 
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
 
   return (
     <>
-      <HeaderAdmin />
+      <UserHeader />
       <Container className="my-4">
         <Row className="g-4">
           {listPelicula.map((pelicula) => (
