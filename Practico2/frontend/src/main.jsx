@@ -8,10 +8,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ListaRepartos from './ListReparto';
 import ListaPeliculas from './ListPelicula';
 import FormPelicula from './FormPelicula';
+import PeliculaDetalle from './peliculaDetalle.jsx';
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+  },
+  {
+    path: "/pelicula/:id",
+    element: <PeliculaDetalle />,
   },
   {
     path: "/reparto/create",
@@ -22,7 +27,7 @@ const router = createBrowserRouter([
     element: <ListaRepartos/>
   },
   {
-    path: "/reparto/:id",
+    path: "/reparto/edit/:id",
     element: <FormReparto/>
   },
   {
@@ -34,7 +39,7 @@ const router = createBrowserRouter([
     element: <FormPelicula />
   },
   {
-    path: "/pelicula/:id",
+    path: "/pelicula/edit/:id",
     element: <FormPelicula />
   }
 ]);

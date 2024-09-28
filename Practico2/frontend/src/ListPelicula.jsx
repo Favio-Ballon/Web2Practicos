@@ -71,7 +71,7 @@ const ListaPeliculas = () => {
                                                 <td>{pelicula.calificacion}</td>
                                                 <td>{pelicula.trailer}</td>
                                                 <td>{pelicula.director_id}</td>
-                                                <td><Link className="btn btn-primary" to={"/pelicula/" + pelicula.id}>Editar</Link></td>
+                                                <td><Link className="btn btn-primary" to={"/pelicula/edit/" + pelicula.id}>Editar</Link></td>
                                                 <td><Button variant="danger" onClick={() => { eliminar(pelicula.id) }}>Eliminar</Button></td>
                                             </tr>
                                         )}

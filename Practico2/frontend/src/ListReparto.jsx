@@ -61,7 +61,7 @@ const ListaRepartos = () => {
                                                 <td>{reparto.id}</td>
                                                 <td>{reparto.nombre}</td>
                                                 <td> <Image src={"http://localhost:3000/images/reparto/" + reparto.foto} width="100" height="100" fluid/></td>
-                                                <td><Link className="btn btn-primary" to={"/reparto/" + reparto.id}>Editar</Link></td>
+                                                <td><Link className="btn btn-primary" to={"/reparto/edit/" + reparto.id}>Editar</Link></td>
                                                 <td><Button variant="danger" onClick={() => { eliminar(reparto.id) }}>Eliminar</Button></td>
                                             </tr>
                                         )}
