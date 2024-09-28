@@ -19,7 +19,7 @@ db.peliculas = require("./pelicula.js")(sequelize, Sequelize);
 db.repartos = require("./reparto.js")(sequelize, Sequelize);
 
 //pelicula tiene un director 
-db.repartos.hasOne(db.peliculas, {
+db.peliculas.belongsTo(db.repartos, {
     as: "director",
     foreignKey: "director_id",
 });

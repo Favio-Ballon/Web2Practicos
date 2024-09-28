@@ -20,6 +20,11 @@ function HeaderAdmin() {
               <NavDropdown.Divider />
               <NavDropdown.Item href="/reparto/create">Crear</NavDropdown.Item>
             </NavDropdown>
+            <NavDropdown title="Pelicula" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/pelicula">Lista</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="/pelicula/create">Crear</NavDropdown.Item>
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>

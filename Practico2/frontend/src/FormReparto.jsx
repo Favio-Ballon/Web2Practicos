@@ -19,7 +19,6 @@ const FormReparto = () => {
     }, [id]);
 
 
-
     const getRepartoById = () => {
         axios.get(`http://localhost:3000/reparto/${id}`)
             .then(res => {
@@ -93,12 +92,12 @@ const FormReparto = () => {
         <>
             <HeaderAdmin></HeaderAdmin>
             <Container>
-                <Row className="mt-3 mb-3">
-                    <Col md={6}>
+                <Row className="mt-4 mb-4">
+                    <Col md={8} lg={6} className="mx-auto">
                         <Card>
                             <Card.Body>
                                 <Card.Title>
-                                    <h2>Formulario Persona</h2>
+                                    <h2>Formulario Reparto</h2>
                                 </Card.Title>
                                 <Form>
                                     <Form.Group >
@@ -109,7 +108,7 @@ const FormReparto = () => {
                                     </Form.Group>
                                     <Form.Group >
                                         <Form.Label>foto</Form.Label>
-                                        <Form.Control type="file" onChange={onFileChange} />
+                                        <Form.Control type="file" accept="image/jpeg, image/jpg, image/png" onChange={onFileChange} />
                                     </Form.Group>
                                     <Form.Group className="mt-3">
                                         <Button onClick={onGuardarClick}>Guardar datos</Button>

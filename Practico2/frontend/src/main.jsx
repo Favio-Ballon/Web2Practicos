@@ -6,6 +6,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import FormReparto from './FormReparto';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ListaRepartos from './ListReparto';
+import ListaPeliculas from './ListPelicula';
+import FormPelicula from './FormPelicula';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,6 +24,18 @@ const router = createBrowserRouter([
   {
     path: "/reparto/:id",
     element: <FormReparto/>
+  },
+  {
+    path: "/pelicula",
+    element: <ListaPeliculas/>
+  },
+  {
+    path: "/pelicula/create",
+    element: <FormPelicula />
+  },
+  {
+    path: "/pelicula/:id",
+    element: <FormPelicula />
   }
 ]);
 createRoot(document.getElementById('root')).render(
