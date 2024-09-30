@@ -8,7 +8,7 @@ const ListaRepartos = () => {
     const [ListaRepartos, setListaRepartos] = useState([]);
     useEffect(() => {
         getListaRepartos();
-        document.title = "Prueba título";
+        document.title = "Rotten Eggs";
     }, [])
 
     const getListaRepartos = () => {

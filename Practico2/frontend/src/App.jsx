@@ -14,7 +14,7 @@ function App() {
 
   useEffect(() => {
     getListPelicula();
-    document.title = "Prueba título";
+    document.title = "Rotten Eggs";
   }, [])
 
   const getListPelicula = () => {

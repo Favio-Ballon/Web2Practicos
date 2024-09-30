@@ -13,6 +13,7 @@ const RepartoDetalle = () => {
 
     useEffect(() => {
         getRepartoById();
+        document.title = "Rotten Eggs";
     }, [id]);
 
     const getRepartoById = () => {

@@ -20,6 +20,7 @@ const FormPelicula = () => {
 
     useEffect(() => {
         getListaReparto();
+        document.title = "Rotten Eggs";
     }, [selectedReparto]);
 
     useEffect(() => {

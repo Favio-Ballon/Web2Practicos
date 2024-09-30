@@ -8,7 +8,7 @@ const ListaPeliculas = () => {
     const [ListaPeliculas, setListaPeliculas] = useState([]);
     useEffect(() => {
         getListaPeliculas();
-        document.title = "Prueba título";
+        document.title = "Rotten Eggs";
     }, [])
 
     const getListaPeliculas = () => {

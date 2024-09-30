@@ -16,6 +16,7 @@ const FormReparto = () => {
     useEffect(() => {
         if (!id) return;
         getRepartoById();
+        document.title = "Rotten Eggs";
     }, [id]);
 
 

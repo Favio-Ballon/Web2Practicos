@@ -16,6 +16,7 @@ const PeliculaDetalle = () => {
     const [pelicula, setPelicula] = useState({});
     useEffect(() => {
         getPeliculaById();
+        document.title = "Rotten Eggs";
     }, [id]);
 
     const getPeliculaById = () => {
