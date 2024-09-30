@@ -8,6 +8,7 @@ const RepartoDetalle = () => {
 
     const { id } = useParams();
     const [peliculas, setPeliculas] = useState([]);
+    const [directores, setDirectores] = useState([]);
     const [nombre, setNombre] = useState('');
     const [foto, setFoto] = useState('');
 
@@ -23,6 +24,8 @@ const RepartoDetalle = () => {
                 setNombre(res.data.nombre);
                 setFoto(res.data.foto);
                 setPeliculas(peliculas);
+                setDirectores(res.data.director);
+                console.log(res.data);
             })
             .catch(error => {
                 console.log(error);
@@ -57,8 +60,38 @@ const RepartoDetalle = () => {
                         </Row>
                     </Card.Body>
                 </Card>
+
+                {/* Movie list */}
+                {directores.length > 0 &&(
+                <Card className="mt-5 shadow-sm">
+                    <Card.Body>
+                        <Card.Title className="mb-4">Películas que dirige</Card.Title>
+                        <Row>
+                            {directores.map((director) => (
+                                <Col key={director.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
+                                    <Link to={`/pelicula/${director.id}`} style={{ textDecoration: 'none' }}>
+                                        <Card className="border-0" style={{ textAlign: 'center' }}>
+                                            <Image
+                                                src={`http://localhost:3000/images/pelicula/${director.imagen}`}
+                                                rounded
+                                                alt={director.nombre}
+                                                className="mb-2"
+                                                style={{ width: '150px', height: '150px', objectFit: 'cover', margin: 'auto' }}
+                                            />
+                                            <Card.Body>
+                                                <Card.Text><strong>{director.nombre}</strong></Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                    </Link>
+                                </Col>
+                            ))}
+                        </Row>
+                    </Card.Body>
+                </Card>
+                )}
     
                 {/* Movie list */}
+                {peliculas.length > 0 &&(
                 <Card className="mt-5 shadow-sm">
                     <Card.Body>
                         <Card.Title className="mb-4">Películas en las que aparece</Card.Title>
@@ -84,6 +117,7 @@ const RepartoDetalle = () => {
                         </Row>
                     </Card.Body>
                 </Card>
+                )}
             </Container>
         </>
     );

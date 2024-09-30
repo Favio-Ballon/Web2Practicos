@@ -21,7 +21,7 @@ exports.listReparto = async (req, res) => {
 exports.getRepartoById = async (req, res) => {
     try {
         const reparto = await db.repartos.findByPk(req.params.id,{
-            include: ['peliculas']
+            include: ['peliculas', 'director']
         });
         if (!reparto) {
             res.status(404).json({

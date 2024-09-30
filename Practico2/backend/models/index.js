@@ -24,6 +24,13 @@ db.peliculas.belongsTo(db.repartos, {
     foreignKey: "director_id",
 });
 
+//director dirige muchas peliculas peliculas
+db.repartos.hasMany(db.peliculas, {
+    as: "director",
+    foreignKey: 'director_id', 
+});
+
+
 
 //reparto tiene muchas peliculas
 db.repartos.belongsToMany(db.peliculas, {
