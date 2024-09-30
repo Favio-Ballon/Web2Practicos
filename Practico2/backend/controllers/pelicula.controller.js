@@ -4,8 +4,11 @@ const { uploadImage } = require("../utils/imagen.utils");
 
 exports.listPelicula = async (req, res) => {
     try{
+        //sort by calificacion asc
         const peliculas = await db.peliculas.findAll({
+            order: [['calificacion', 'DESC']],
             include: ['repartos', 'director']
+
     });
         res.json(peliculas);
     } catch (error) {
