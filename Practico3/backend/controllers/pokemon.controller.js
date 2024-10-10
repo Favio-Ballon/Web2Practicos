@@ -1,20 +1,22 @@
 const db = require("../models"); 
+const { isRequestValid } = require("../utils/request.utils");
+const { uploadImage } = require("../utils/imagen.utils");
 
 exports.listPokemon = async (req, res) => {
     try {
         const pokemons = await db.pokemon.findAll({
-            include: ['idTipo1', 'idTipo2', 'idHabilidad1', 'idHabilidad2', 'idHabilidad3', 'idEvPrevia', 'idEvSiguiente']
+            include: ['tipo1', 'tipo2', 'habilidad1', 'habilidad2', 'habilidad3', 'evPrevia', 'evSiguiente']
         });
         res.status(200).json(pokemons);
     } catch (error) {
-        res.status(500).json({message: error.message});
+        sendError500(res, error);
     }
 }
 
 exports.getPokemonById = async (req, res) => {
     try {
         const pokemon = await db.pokemon.findByPk(req.params.id, {
-            include: ['idTipo1', 'idTipo2', 'idHabilidad1', 'idHabilidad2', 'idHabilidad3', 'idEvPrevia', 'idEvSiguiente']
+            include: ['tipo1', 'tipo2', 'habilidad1', 'habilidad2', 'habilidad3', 'evPrevia', 'evSiguiente']
         });
         if(!pokemon){
             res.status(404).json({message: "Pokemon no encontrado"});
@@ -22,12 +24,12 @@ exports.getPokemonById = async (req, res) => {
         }
         res.status(200).json(pokemon);
     } catch (error) {
-        res.status(500).json({message: error.message});
+        sendError500(res, error);
     }
 }
 
 exports.createPokemon = async (req, res) => {
-    const requiredFields = ['nombre', 'nroPokedex', 'idTipo1', 'idHabilidad1', 'descripcion', 'hp', 'attack', 'defense', 'spAttack', 'spDefense', 'speed', 'imagen'];
+    const requiredFields = ['nombre', 'nroPokedex', 'idTipo1', 'idHabilidad1', 'descripcion', 'hp', 'attack', 'defense', 'spAttack', 'spDefense', 'speed'];
     if (!isRequestValid(requiredFields, req.body, res)) {
         return;
     }
@@ -46,10 +48,10 @@ exports.createPokemon = async (req, res) => {
             nombre: req.body.nombre,
             nroPokedex: req.body.nroPokedex,
             idTipo1: req.body.idTipo1,
-            idTipo2: req.body.idTipo2,
+            idTipo2: req.body.idTipo2 || null,
             idHabilidad1: req.body.idHabilidad1,
-            idHabilidad2: req.body.idHabilidad2,
-            idHabilidad3: req.body.idHabilidad3,
+            idHabilidad2: req.body.idHabilidad2 || null,
+            idHabilidad3: req.body.idHabilidad3 || null,
             descripcion: req.body.descripcion,
             hp: req.body.hp,
             attack: req.body.attack,
@@ -57,20 +59,20 @@ exports.createPokemon = async (req, res) => {
             spAttack: req.body.spAttack,
             spDefense: req.body.spDefense,
             speed: req.body.speed,
-            nivelEvolucion: req.body.nivelEvolucion,
-            idEvPrevia: req.body.idEvPrevia,
-            idEvSiguiente: req.body.idEvSiguiente,
+            nivelEvolucion: req.body.nivelEvolucion || null,
+            idEvPrevia: req.body.idEvPrevia || null,
+            idEvSiguiente: req.body.idEvSiguiente || null,
             imagen: pathImage
         }
         const pokemonCreado = await db.pokemon.create(pokemon);
         res.status(201).json(pokemon);
     } catch (error) {
-        sendError500(error);
+        sendError500(res, error);
     }
 }
 
 exports.updatePokemon = async (req, res) => {
-    const requiredFields = ['nombre', 'nroPokedex', 'idTipo1', 'idHabilidad1', 'descripcion', 'hp', 'attack', 'defense', 'spAttack', 'spDefense', 'speed', 'imagen'];
+    const requiredFields = ['nombre', 'nroPokedex', 'idTipo1', 'idHabilidad1', 'descripcion', 'hp', 'attack', 'defense', 'spAttack', 'spDefense', 'speed'];
     if (!isRequestValid(requiredFields, req.body, res)) {
         return;
     }
@@ -93,10 +95,15 @@ exports.updatePokemon = async (req, res) => {
         pokemon.nombre = req.body.nombre;
         pokemon.nroPokedex = req.body.nroPokedex;
         pokemon.idTipo1 = req.body.idTipo1;
-        pokemon.idTipo2 = req.body.idTipo2;
+
+        pokemon.idTipo2 = req.body.idTipo2 || null;
         pokemon.idHabilidad1 = req.body.idHabilidad1;
-        pokemon.idHabilidad2 = req.body.idHabilidad2;
-        pokemon.idHabilidad3 = req.body.idHabilidad3;
+
+        pokemon.idHabilidad2 = req.body.idHabilidad2 || null;
+        
+        
+        pokemon.idHabilidad3 = req.body.idHabilidad3 || null;
+        
         pokemon.descripcion = req.body.descripcion;
         pokemon.hp = req.body.hp;
         pokemon.attack = req.body.attack;
@@ -104,14 +111,14 @@ exports.updatePokemon = async (req, res) => {
         pokemon.spAttack = req.body.spAttack;
         pokemon.spDefense = req.body.spDefense;
         pokemon.speed = req.body.speed;
-        pokemon.nivelEvolucion = req.body.nivelEvolucion;
-        pokemon.idEvPrevia = req.body.idEvPrevia;
-        pokemon.idEvSiguiente = req.body.idEvSiguiente; 
+        pokemon.nivelEvolucion = req.body.nivelEvolucion || null;
+        pokemon.idEvPrevia = req.body.idEvPrevia || null;
+        pokemon.idEvSiguiente = req.body.idEvSiguiente || null; 
 
-        await pokemon.update(req.body);
+        await pokemon.save();
         res.status(200).json(pokemon);
     } catch (error) {
-        sendError500(error);
+        sendError500(res, error);
     }
 }
 
@@ -123,17 +130,18 @@ exports.deletePokemon = async (req, res) => {
             return;
         }
         await pokemon.destroy();
-        res.status(204).json();
+        res.status(204).json('Pokemon eliminado');
     } catch (error) {
-        sendError500(error);
+        sendError500(res, error);
     }
 }
 
     
 
-function sendError500(error){
-    console.log(error);
+const sendError500 = (res, error) => {
+    console.log(error); // Log the error
     res.status(500).json({
-        msg: 'Error en el servidor'
+        message: "Internal Server Error",
+        error: error.message
     });
-}
+};

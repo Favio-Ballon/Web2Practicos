@@ -19,28 +19,61 @@ db.pokemon = require("./pokemon.js")(sequelize, Sequelize);
 db.tipo = require("./tipo.js")(sequelize, Sequelize);
 db.habilidad = require("./habilidad.js")(sequelize, Sequelize);
 
-//pokemon puede tener 3 habilidades pero una es obligatoria
-db.habilidad.hasMany(db.pokemon, {foreignKey: 'idHabilidad1'});
-db.pokemon.belongsTo(db.habilidad, {foreignKey: 'idHabilidad1'});
+// pokemon puede tener 3 habilidades pero una es obligatoria
+db.habilidad.hasMany(db.pokemon, {
+    as: "habilidad1",
+    foreignKey: 'idHabilidad1'
+});
+db.pokemon.belongsTo(db.habilidad, {
+    as: "habilidad1",
+    foreignKey: 'idHabilidad1'
+});
 
-db.habilidad.hasMany(db.pokemon, {foreignKey: 'idHabilidad2'});
-db.pokemon.belongsTo(db.habilidad, {foreignKey: 'idHabilidad2'});
+db.habilidad.hasMany(db.pokemon, {
+    as: "habilidad2",
+    foreignKey: 'idHabilidad2'
+});
+db.pokemon.belongsTo(db.habilidad, {
+    as: "habilidad2",
+    foreignKey: 'idHabilidad2'
+});
 
-db.habilidad.hasMany(db.pokemon, {foreignKey: 'idHabilidad3'});
-db.pokemon.belongsTo(db.habilidad, {foreignKey: 'idHabilidad3'});
+db.habilidad.hasMany(db.pokemon, {
+    as: "habilidad3",
+    foreignKey: 'idHabilidad3'
+});
+db.pokemon.belongsTo(db.habilidad, {
+    as: "habilidad3",
+    foreignKey: 'idHabilidad3'
+});
 
-//pokemon puede tener un tipo
-db.tipo.hasMany(db.pokemon, {foreignKey: 'idTipo1'});
-db.pokemon.belongsTo(db.tipo, {foreignKey: 'idTipo1'});
+// pokemon puede tener 2 tipos pero uno es obligatorio
+db.tipo.hasMany(db.pokemon, {
+    as: "tipo1",
+    foreignKey: 'idTipo1'
+});
+db.pokemon.belongsTo(db.tipo, {
+    as: "tipo1",
+    foreignKey: 'idTipo1'
+});
 
-db.tipo.hasMany(db.pokemon, {foreignKey: 'idTipo2'});
-db.pokemon.belongsTo(db.tipo, {foreignKey: 'idTipo2'});
+db.tipo.hasMany(db.pokemon, {
+    as: "tipo2",
+    foreignKey: 'idTipo2'
+});
+db.pokemon.belongsTo(db.tipo, {
+    as: "tipo2",
+    foreignKey: 'idTipo2'
+});
 
-//pokemo puede tener una evolucion previa y una siguiente
-db.pokemon.hasMany(db.pokemon, {foreignKey: 'idEvPrevia'});
-db.pokemon.belongsTo(db.pokemon, {foreignKey: 'idEvPrevia'});
-
-db.pokemon.hasMany(db.pokemon, {foreignKey: 'idEvSiguiente'});
-db.pokemon.belongsTo(db.pokemon, {foreignKey: 'idEvSiguiente'});
+// Ensure unique aliases for evPrevia and evSiguiente
+db.pokemon.belongsTo(db.pokemon, {
+    as: "evPrevia",
+    foreignKey: 'idEvPrevia'
+});
+db.pokemon.belongsTo(db.pokemon, {
+    as: "evSiguiente",
+    foreignKey: 'idEvSiguiente'
+});
 
 module.exports = db;
