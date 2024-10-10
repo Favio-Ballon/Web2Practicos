@@ -4,7 +4,7 @@ module.exports = app => {
 
     router.get("/", controller.listPelicula);
     router.get('/:id', controller.getPeliculaById);
-
+    
     router.post("/create", controller.createPelicula);
 
     router.put('/:id', controller.updatePeliculaPut);
