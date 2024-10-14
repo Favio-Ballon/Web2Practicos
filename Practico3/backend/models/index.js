@@ -22,7 +22,8 @@ db.habilidad = require("./habilidad.js")(sequelize, Sequelize);
 // pokemon puede tener 3 habilidades pero una es obligatoria
 db.habilidad.hasMany(db.pokemon, {
     as: "habilidad1",
-    foreignKey: 'idHabilidad1'
+    foreignKey: 'idHabilidad1',
+
 });
 db.pokemon.belongsTo(db.habilidad, {
     as: "habilidad1",
@@ -31,20 +32,24 @@ db.pokemon.belongsTo(db.habilidad, {
 
 db.habilidad.hasMany(db.pokemon, {
     as: "habilidad2",
-    foreignKey: 'idHabilidad2'
+    foreignKey: 'idHabilidad2',
+    onDelete: 'SET NULL'
 });
 db.pokemon.belongsTo(db.habilidad, {
     as: "habilidad2",
-    foreignKey: 'idHabilidad2'
+    foreignKey: 'idHabilidad2',
+    onDelete: 'SET NULL'
 });
 
 db.habilidad.hasMany(db.pokemon, {
     as: "habilidad3",
-    foreignKey: 'idHabilidad3'
+    foreignKey: 'idHabilidad3',
+    onDelete: 'SET NULL'
 });
 db.pokemon.belongsTo(db.habilidad, {
     as: "habilidad3",
-    foreignKey: 'idHabilidad3'
+    foreignKey: 'idHabilidad3',
+    onDelete: 'SET NULL'
 });
 
 // pokemon puede tener 2 tipos pero uno es obligatorio
