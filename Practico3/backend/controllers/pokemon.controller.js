@@ -4,10 +4,10 @@ const { uploadImage } = require("../utils/imagen.utils");
 
 exports.listPokemon = async (req, res) => {
     try {
-        const pokemons = await db.pokemon.findAll({
+        const pokemon = await db.pokemon.findAll({
             include: ['tipo1', 'tipo2', 'habilidad1', 'habilidad2', 'habilidad3', 'evPrevia', 'evSiguiente']
         });
-        res.status(200).json(pokemons);
+        res.status(200).json(pokemon);
     } catch (error) {
         sendError500(res, error);
     }
@@ -16,7 +16,21 @@ exports.listPokemon = async (req, res) => {
 exports.getPokemonById = async (req, res) => {
     try {
         const pokemon = await db.pokemon.findByPk(req.params.id, {
-            include: ['tipo1', 'tipo2', 'habilidad1', 'habilidad2', 'habilidad3', 'evPrevia', 'evSiguiente']
+            include: [
+                'tipo1', 
+                'tipo2', 
+                'habilidad1', 
+                'habilidad2', 
+                'habilidad3', 
+                { 
+                    association: 'evPrevia', 
+                    include: ['evPrevia', 'evSiguiente'] 
+                },
+                { 
+                    association: 'evSiguiente', 
+                    include: ['evPrevia', 'evSiguiente'] 
+                }
+            ]
         });
         if(!pokemon){
             res.status(404).json({message: "Pokemon no encontrado"});
@@ -92,6 +106,9 @@ exports.updatePokemon = async (req, res) => {
             }
         }
 
+        //update pokemon evPrevia and evSiguiente
+
+
         pokemon.nombre = req.body.nombre;
         pokemon.nroPokedex = req.body.nroPokedex;
         pokemon.idTipo1 = req.body.idTipo1;
@@ -134,6 +151,62 @@ exports.deletePokemon = async (req, res) => {
     } catch (error) {
         sendError500(res, error);
     }
+}
+
+exports.getLineaEvolutiva = async (req, res) => {
+    let idPokemonActual = req.params.id;
+    if(!idPokemonActual){
+        res.status(400).json({message: "Falta el id del pokemon"});
+        return;
+    }
+    //4 casos
+    //caso 0: no tiene evolución
+    let objPokemon = await db.pokemon.findByPk(idPokemonActual);
+    if (objPokemon.idEvPrevia === null && objPokemon.idEvSiguiente === null) {
+        const respuesta = [];
+        respuesta.push(objPokemon);
+        res.status(200).json(respuesta);
+        return;
+    }
+    //caso 1: pokemon inicial es el actual
+    if (objPokemon.idEvPrevia === null) {
+        const respuesta = [];
+        respuesta.push(objPokemon);
+        while (objPokemon.idEvSiguiente !== null) {
+            objPokemon = await db.pokemon.findByPk(objPokemon.idEvSiguiente);
+            respuesta.push(objPokemon);
+        }
+        res.status(200).json(respuesta);
+        return;
+    }
+    //caso 2: pokemon final es el actual
+    if (objPokemon.idEvSiguiente === null) {
+        const respuesta = [];
+        while (objPokemon.idEvPrevia !== null) {
+            respuesta.push(objPokemon);
+            objPokemon = await db.pokemon.findByPk(objPokemon.idEvPrevia);
+        }
+        respuesta.push(objPokemon);
+        respuesta.reverse();
+        res.status(200).json(respuesta);
+        return;
+    }
+    //caso 3: pokemon intermedio es el actual
+    const respuesta = [];
+    while (objPokemon.idEvPrevia !== null) {
+
+        objPokemon = await db.pokemon.findByPk(objPokemon.idEvPrevia);
+    }
+    while (objPokemon.idEvSiguiente !== null) {
+        respuesta.push(objPokemon);
+        objPokemon = await db.pokemon.findByPk(objPokemon.idEvSiguiente);
+    }
+    respuesta.push(objPokemon);
+
+    res.status(200).json(respuesta);
+    return;
+
+
 }
 
     

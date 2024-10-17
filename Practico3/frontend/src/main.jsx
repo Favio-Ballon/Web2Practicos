@@ -9,6 +9,8 @@ import ListaHabilidades from './crud/listHabilidad.jsx';
 import FormHabilidad from './crud/formHabilidad.jsx';
 import FormPokemon from './crud/formPokemon.jsx';
 import FormTipo from './crud/formTipo.jsx';
+import App from './App.jsx';
+import PokemonDetalle from './pokemonDetalle.jsx';
 const router = createBrowserRouter([
   {
     path: "/pokemon",
@@ -46,6 +48,14 @@ const router = createBrowserRouter([
     path: "/pokemon/edit/:id",
     element: <FormPokemon />,
   },
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "/pokemon/:id",
+    element: <PokemonDetalle />,
+  }
 
 
 

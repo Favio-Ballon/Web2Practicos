@@ -11,6 +11,8 @@ module.exports = app => {
 
     router.delete('/:id', controller.deletePokemon);
 
+    router.get("/evolucion/:id", controller.getLineaEvolutiva);
+
 
     app.use('/pokemon', router);
 }

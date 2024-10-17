@@ -1,33 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import UserHeader from './components/header'
+import { Card,Container, Row, Col } from 'react-bootstrap';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [listPokemon, setlistPokemon] = useState([]);
+
+  useEffect(() => {
+    getListPokemon();
+    document.title = "Pokedex";
+  }, [])
+
+  const getListPokemon = () => {
+    axios.get('http://localhost:3000/pokemon')
+      .then(res => {
+        setlistPokemon(res.data);
+        console.log(res.data);
+      }).catch(error => {
+        console.log(error);
+      });
+  }
+  
+
+
+
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <UserHeader/>
+
+      <Container className="my-4 mt-5" >
+      <Row className="g-4">
+
+        {listPokemon.map((pokemon) => (
+          <Col md={4} key={pokemon.id}>
+            <a href={`/pokemon/${pokemon.id}`}>
+            <Card>
+              <Card.Img variant="top" src={`http://localhost:3000/images/pokemon/${pokemon.imagen}`} />
+              <Card.Body>
+                <Card.Title>{pokemon.nombre}</Card.Title>
+              </Card.Body>
+            </Card>
+            </a>
+          </Col>
+        ))}
+      </Row>
+      </Container>
+      
+      
     </>
   )
 }
