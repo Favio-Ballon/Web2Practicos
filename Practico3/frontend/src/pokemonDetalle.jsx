@@ -40,12 +40,12 @@ function PokemonDetalle() {
             });
     }
 
-    const calculateMinStat = (attack) => {
-        return Math.floor((((((2 * attack + 0 + (0 / 4)) / 100) * 100) + 5) * 0.9));
+    const calculateMinStat = (stat) => {
+        return Math.floor((((((2 * stat + 0 + (0 / 4)) / 100) * 100) + 5) * 0.9));
     };
 
-    const calculateMaxStat = (attack) => {
-        return Math.floor(((((2 * attack + 31 + (252 / 4)) / 100) * 100) + 5) * 1.1);
+    const calculateMaxStat = (stat) => {
+        return Math.floor(((((2 * stat + 31 + (252 / 4)) / 100) * 100) + 5) * 1.1);
     };
 
 
@@ -70,12 +70,12 @@ function PokemonDetalle() {
                                 </tr>
                                 <tr>
                                     <td>Tipo 1: </td>
-                                    <td colSpan={3}>{pokemon.tipo1?.nombre}</td>
+                                    <td colSpan={3}>{pokemon.tipo1?.nombre || 'N/A'}</td>
                                 </tr>
                                 {pokemon.tipo2 &&
                                     <tr>
                                         <td>Tipo 2: </td>
-                                        <td colSpan={3}>{pokemon.tipo2?.nombre}</td>
+                                        <td colSpan={3}>{pokemon.tipo2?.nombre || 'N/A'}</td>
                                     </tr>
                                 }
                                 <tr>
@@ -83,18 +83,18 @@ function PokemonDetalle() {
                                 </tr>
                                 <tr>
                                     <td>Habilidad 1: </td>
-                                    <td colSpan={3}>{pokemon.habilidad1?.nombre}</td>
+                                    <td colSpan={3}>{pokemon.habilidad1?.nombre || 'N/A'}</td>
                                 </tr>
                                 {pokemon.habilidad2 &&
                                     <tr>
                                         <td>Habilidad 2: </td>
-                                        <td colSpan={3}>{pokemon.habilidad2?.nombre}</td>
+                                        <td colSpan={3}>{pokemon.habilidad2?.nombre || 'N/A'}</td>
                                     </tr>
                                 }
                                 {pokemon.habilidad3 &&
                                     <tr>
                                         <td>Habilidad oculta: </td>
-                                        <td colSpan={3}>{pokemon.habilidad3?.nombre}</td>
+                                        <td colSpan={3}>{pokemon.habilidad3?.nombre || 'N/A'}</td>
                                     </tr>
                                 }
 
@@ -115,33 +115,33 @@ function PokemonDetalle() {
                                 <tr>
                                     <td>Ataque:</td>
                                     <td>{pokemon.attack}</td>
-                                    <td>{calculateMinStat(pokemon.attack)}</td>
-                                    <td>{calculateMaxStat(pokemon.attack)}</td>
+                                    <td>{isNaN(calculateMinStat(pokemon.attack)) ? 'N/A' : calculateMinStat(pokemon.attack)}</td>
+                                    <td>{isNaN(calculateMaxStat(pokemon.attack)) ? 'N/A' : calculateMaxStat(pokemon.attack)}</td>
 
                                 </tr>
                                 <tr>
                                     <td>Defensa:</td>
                                     <td>{pokemon.defense}</td>
-                                    <td>{calculateMinStat(pokemon.defense)}</td>
-                                    <td>{calculateMaxStat(pokemon.defense)}</td>
+                                    <td>{isNaN(calculateMinStat(pokemon.defense)) ? 'N/A' : calculateMinStat(pokemon.defense)}</td>
+                                    <td>{isNaN(calculateMaxStat(pokemon.defense)) ? 'N/A' : calculateMaxStat(pokemon.defense)}</td>
                                 </tr>
                                 <tr>
                                     <td>Ataque Especial:</td>
                                     <td>{pokemon.spAttack}</td>
-                                    <td>{calculateMinStat(pokemon.spAttack)}</td>
-                                    <td>{calculateMaxStat(pokemon.spAttack)}</td>
+                                    <td>{isNaN(calculateMinStat(pokemon.spAttack)) ? 'N/A' : calculateMinStat(pokemon.spAttack)}</td>
+                                    <td>{isNaN(calculateMaxStat(pokemon.spAttack)) ? 'N/A' : calculateMaxStat(pokemon.spAttack)}</td>
                                 </tr>
                                 <tr>
                                     <td>Defensa Especial:</td>
                                     <td>{pokemon.spDefense}</td>
-                                    <td>{calculateMinStat(pokemon.spDefense)}</td>
-                                    <td>{calculateMaxStat(pokemon.spDefense)}</td>
+                                    <td>{isNaN(calculateMinStat(pokemon.spDefense)) ? 'N/A' : calculateMinStat(pokemon.spDefense)}</td>
+                                    <td>{isNaN(calculateMaxStat(pokemon.spDefense)) ? 'N/A' : calculateMaxStat(pokemon.spDefense)}</td>
                                 </tr>
                                 <tr>
                                     <td>Velocidad:</td>
                                     <td>{pokemon.speed}</td>
-                                    <td>{calculateMinStat(pokemon.speed)}</td>
-                                    <td>{calculateMaxStat(pokemon.speed)}</td>
+                                    <td>{isNaN(calculateMinStat(pokemon.speed)) ? 'N/A' : calculateMinStat(pokemon.speed)}</td>
+                                    <td>{isNaN(calculateMaxStat(pokemon.speed)) ? 'N/A' : calculateMaxStat(pokemon.speed)}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -167,7 +167,7 @@ function PokemonDetalle() {
                         {index < evoluciones.length - 1 && (
                             <Col className="d-flex align-items-center justify-content-center">
                                 <div className="blockHead">
-                                    <span className="blocktext">{evolucion.nivelEvolucion}</span>
+                                <span className="blocktext">{isNaN(evolucion.nivelEvolucion) ? 'N/A' : evolucion.nivelEvolucion}</span>
                                 </div>
                             </Col>
                         )}

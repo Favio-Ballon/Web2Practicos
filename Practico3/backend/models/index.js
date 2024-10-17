@@ -58,7 +58,7 @@ db.tipo.hasMany(db.pokemon, {
     foreignKey: 'idTipo1'
 });
 db.pokemon.belongsTo(db.tipo, {
-    as: "tipo1",
+    as: "tipo1",    
     foreignKey: 'idTipo1'
 });
 

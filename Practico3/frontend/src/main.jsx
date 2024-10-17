@@ -11,6 +11,7 @@ import FormPokemon from './crud/formPokemon.jsx';
 import FormTipo from './crud/formTipo.jsx';
 import App from './App.jsx';
 import PokemonDetalle from './pokemonDetalle.jsx';
+import Buscador from './buscador.jsx';
 const router = createBrowserRouter([
   {
     path: "/pokemon",
@@ -55,6 +56,14 @@ const router = createBrowserRouter([
   {
     path: "/pokemon/:id",
     element: <PokemonDetalle />,
+  },
+  {
+    path: "/search/tipo/:tipo",
+    element: <Buscador />,
+  },
+  {
+    path: "/search/pokemon/:name",
+    element: <Buscador />,
   }
 
 

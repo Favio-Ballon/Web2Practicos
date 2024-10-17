@@ -1,4 +1,4 @@
-import { Navbar, Nav, Form, FormControl, Button, Container } from 'react-bootstrap';
+import { Navbar, Nav, Form, FormControl, Button, Container, Dropdown } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; 
 import { useState } from 'react';
 
@@ -6,16 +6,50 @@ import { useState } from 'react';
 const UserHeader = () => {
 
     const [searchQuery, setSearchQuery] = useState('');
+    const [searchSuggestions, setSearchSuggestions] = useState([]);
+    const [seleccionado, setseleccionado] = useState(null);
+
     const navigate = useNavigate();
 
+    const getSearchSuggestions = async (query) => {
+        if (query.trim()) {
+            console.log(query);
+            // Fetch search suggestions
+            const response = await fetch(`http://localhost:3000/search/${query}`);
+            const data = await response.json();
+            setSearchSuggestions(data.results);
+            console.log(searchSuggestions);
+        } else {
+            setSearchSuggestions([]);
+        }
+    }
+
+    const handleSuggestionClick = (suggestion) => {
+        setSearchQuery(suggestion.nombre);
+        setseleccionado(suggestion); 
+        setSearchSuggestions([]);
+    }
+
     const handleSearchChange = (e) => {
+        setseleccionado(null); 
         setSearchQuery(e.target.value);
+        getSearchSuggestions(e.target.value);
     };
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         if (searchQuery.trim()) {
-            navigate(`/search?query=${searchQuery}`);
+            // Redirect to search page
+            if(seleccionado){
+                if(seleccionado.tipo === 'pokemon'){
+                    navigate(`/pokemon/${seleccionado.id}`);
+                }else{
+                    navigate(`/search/tipo/${seleccionado.id}`);
+                }
+            }else{
+                navigate(`/search/pokemon/${searchQuery}`);
+            }
+
         }
     };
 
@@ -44,7 +78,7 @@ const UserHeader = () => {
                     </Nav>
 
                     {/* Search form */}
-                    <Form className="d-flex me-3">
+                    <Form className="d-flex me-3 position-relative" onSubmit={handleSearchSubmit}>
                         <FormControl
                             type="search"
                             placeholder="Search..."
@@ -54,7 +88,21 @@ const UserHeader = () => {
                             value={searchQuery}
                             onChange={handleSearchChange}
                         />
-                        <Button variant="outline-warning" style={{color: '#FF0000', borderColor: '#FF0000'}}  type="submit">Search</Button>
+                        <Button variant="outline-warning" style={{color: '#FF0000', borderColor: '#FF0000'}} type="submit">
+                            Search
+                        </Button>
+                        {searchSuggestions.length > 0 && (
+                            <Dropdown.Menu show className="position-absolute w-100" style={{ top: '100%' }}>
+                                {searchSuggestions.map((suggestion) => (
+                                    <Dropdown.Item
+                                        key={suggestion.id}
+                                        onClick={() => handleSuggestionClick(suggestion)}
+                                    >
+                                        {suggestion.nombre}
+                                    </Dropdown.Item>
+                                ))}
+                            </Dropdown.Menu>
+                        )}
                     </Form>
                 </Navbar.Collapse>
             </Container>
