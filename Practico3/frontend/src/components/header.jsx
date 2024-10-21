@@ -31,13 +31,14 @@ const UserHeader = () => {
     }
 
     const handleSearchChange = (e) => {
-        setseleccionado(null); 
+        setseleccionado(null);
         setSearchQuery(e.target.value);
         getSearchSuggestions(e.target.value);
     };
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
+        setSearchSuggestions([]);
         if (searchQuery.trim()) {
             // Redirect to search page
             if(seleccionado){

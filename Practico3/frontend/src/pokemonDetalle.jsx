@@ -57,7 +57,7 @@ function PokemonDetalle() {
             <Container style={{ marginTop: '45px' }}>
                 <Row>
                     <Col className="text-center" >
-                        <h1>{pokemon.nombre}</h1>
+                        <h1>{pokemon.nombre} {' #' + pokemon.nroPokedex}</h1>
                         <Image src={`http://localhost:3000/images/pokemon/${pokemon.imagen}`} alt={pokemon.nombre} width="400" height="400" fluid />
                         <p>{pokemon.descripcion}</p>
                     </Col>

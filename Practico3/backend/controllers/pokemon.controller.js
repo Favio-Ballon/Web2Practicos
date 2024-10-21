@@ -5,7 +5,8 @@ const { uploadImage } = require("../utils/imagen.utils");
 exports.listPokemon = async (req, res) => {
     try {
         const pokemon = await db.pokemon.findAll({
-            include: ['tipo1', 'tipo2', 'habilidad1', 'habilidad2', 'habilidad3', 'evPrevia', 'evSiguiente']
+            include: ['tipo1', 'tipo2', 'habilidad1', 'habilidad2', 'habilidad3', 'evPrevia', 'evSiguiente'],
+            order: [['nroPokedex', 'ASC']]
         });
         res.status(200).json(pokemon);
     } catch (error) {

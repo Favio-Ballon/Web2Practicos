@@ -63,11 +63,11 @@ function Buscador() {
 
         {listPokemon.map((pokemon) => (
           <Col md={4} key={pokemon.id}>
-            <a href={`/pokemon/${pokemon.id}`}>
-            <Card>
+            <a href={`/pokemon/${pokemon.id}`} style={{textDecoration:'none'}}>
+            <Card style={{minWidth: '250px'}}>
               <Card.Img variant="top" src={`http://localhost:3000/images/pokemon/${pokemon.imagen}`} />
               <Card.Body>
-                <Card.Title>{pokemon.nombre}</Card.Title>
+                <Card.Title>{pokemon.nombre} {' #'+pokemon.nroPokedex}</Card.Title>
               </Card.Body>
             </Card>
             </a>
