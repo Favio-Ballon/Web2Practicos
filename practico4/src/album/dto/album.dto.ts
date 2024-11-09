@@ -1,6 +1,7 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { Transform } from "class-transformer";
 
-export class GeneroDto {
+export class AlbumDto {
     readonly id: number;
     @IsString()
     @IsNotEmpty()
@@ -8,7 +9,8 @@ export class GeneroDto {
 
     imagen: string;
 
-    @IsString()
+    @Transform(({ value }) => parseInt(value, 10))
+    @IsNumber()
     @IsNotEmpty()
     artistaId: number;
 }

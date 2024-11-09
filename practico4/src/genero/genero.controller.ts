@@ -39,7 +39,7 @@ export class GeneroController {
 
         const generoActual = await this.generosService.findById(id);
         if (!generoActual) {
-            throw new Error("Genero no encontrado");
+            throw new BadRequestException("Genero no encontrado");
         }
         return this.generosService.updateGenero(id, genero);
     }

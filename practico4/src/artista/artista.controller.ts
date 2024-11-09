@@ -29,7 +29,7 @@ export class ArtistaController {
         const genero = await this.generoService.findById(artista.generoId);
 
         if (!genero) {
-            throw new Error("Ingrese un genero valido");
+            throw new BadRequestException("Ingrese un genero valido");
         }
 
         return this.artistaService.createArtista({
@@ -52,13 +52,13 @@ export class ArtistaController {
 
         const artistaActual = await this.artistaService.findById(id);
         if (!artistaActual) {
-            throw new Error("Genero no encontrado");
+            throw new BadRequestException("Artista no encontrado");
         }
         const genero = await this.generoService.findById(artista.generoId);
         if (!genero) {
-            throw new Error("Genero no encontrado");
+            throw new BadRequestException("Genero no encontrado");
         }
-        return this.artistaService.updateGenero(id, {
+        return this.artistaService.updateArtista(id, {
             id: artista.id,
             nombre: artista.nombre,
             imagen: artista.imagen,

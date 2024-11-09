@@ -11,10 +11,10 @@ export class GeneroService {
         private generoRepository: Repository<Genero>,
     ) {}
     findAll(): Promise<Genero[]> {
-        return this.generoRepository.find();
+        return this.generoRepository.find({ relations: ["artistas"] });
     }
     findById(id: number): Promise<Genero | null> {
-        return this.generoRepository.findOneBy({ id });
+        return this.generoRepository.findOne({ where: { id }, relations: ["artistas"] });
     }
     createGenero(genero: Genero): Promise<Genero> {
         return this.generoRepository.save(genero);

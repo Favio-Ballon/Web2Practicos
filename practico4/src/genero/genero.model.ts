@@ -9,6 +9,6 @@ export class Genero {
     nombre: string;
     @Column()
     imagen: string;
-    @OneToMany(() => Artista, artista => artista.genero)
+    @OneToMany(() => Artista, artista => artista.genero, { cascade: true })
     artistas: Artista[];
 }

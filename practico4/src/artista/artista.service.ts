@@ -10,10 +10,10 @@ export class ArtistaService {
         private artistaRepository: Repository<Artista>,
     ) {}
     findAll(): Promise<Artista[]> {
-        return this.artistaRepository.find();
+        return this.artistaRepository.find({ relations: ["genero", "albums"] });
     }
     findById(id: number): Promise<Artista | null> {
-        return this.artistaRepository.findOneBy({ id });
+        return this.artistaRepository.findOne({ where: { id }, relations: ["genero", "albums"] });
     }
     createArtista(artista: Artista): Promise<Artista> {
         return this.artistaRepository.save(artista);
@@ -26,7 +26,7 @@ export class ArtistaService {
         return "Artista eliminado";
     }
 
-    async updateGenero(id: number, updateData: Partial<Artista>): Promise<Artista> {
+    async updateArtista(id: number, updateData: Partial<Artista>): Promise<Artista> {
         await this.artistaRepository.update(id, {
             nombre: updateData.nombre,
             imagen: updateData.imagen,
