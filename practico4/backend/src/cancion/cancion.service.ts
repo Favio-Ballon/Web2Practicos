@@ -30,7 +30,6 @@ export class CancionService {
     async updateCancion(id: number, updateData: Partial<Cancion>): Promise<Cancion> {
         await this.cancionRepository.update(id, {
             nombre: updateData.nombre,
-            imagen: updateData.imagen,
             mp3: updateData.mp3,
             artista: updateData.artista,
             album: updateData.album,

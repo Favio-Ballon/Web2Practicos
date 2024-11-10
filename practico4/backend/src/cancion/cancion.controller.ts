@@ -1,8 +1,8 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { CancionService } from "./cancion.service";
 import { AlbumService } from "../album/album.service";
 import { Cancion } from "./cancion.model";
-import { FilesInterceptor } from "@nestjs/platform-express";
+import { FileInterceptor } from "@nestjs/platform-express";
 import { CancionDto } from "./dto/cancion.dto";
 import { ArtistaService } from "../artista/artista.service";
 import { ImagenUtils } from "../utils/imagen.utils";
@@ -25,17 +25,9 @@ export class CancionController {
         return this.cancionService.findById(id);
     }
     @Post()
-    @UseInterceptors(FilesInterceptor("files"))
-    async create(@UploadedFiles() files: Express.Multer.File[], @Body() cancion: CancionDto): Promise<Cancion> {
-        for (const file of files) {
-            if (file.mimetype.startsWith("image/")) {
-                const imagePath = await this.uploadFile(file);
-                cancion.imagen = imagePath;
-            } else if (file.mimetype === "audio/mpeg") {
-                const mp3Path = await this.uploadSong(file);
-                cancion.mp3 = mp3Path;
-            }
-        }
+    @UseInterceptors(FileInterceptor("mp3"))
+    async create(@UploadedFile() mp3: Express.Multer.File, @Body() cancion: CancionDto): Promise<Cancion> {
+        const path = await this.uploadSong(mp3);
 
         const artista = await this.artistaService.findById(cancion.artistaId);
         if (!artista) {
@@ -49,24 +41,20 @@ export class CancionController {
         return this.cancionService.createCancion({
             id: cancion.id,
             nombre: cancion.nombre,
-            imagen: cancion.imagen,
-            mp3: cancion.mp3,
+            mp3: path,
             artista: artista,
             album: album,
         });
     }
 
     @Put(":id")
-    @UseInterceptors(FilesInterceptor("files"))
-    async update(@UploadedFiles() files: Express.Multer.File[], @Param("id") id: number, @Body() cancion: CancionDto): Promise<Cancion> {
-        for (const file of files) {
-            if (file.mimetype.startsWith("image/")) {
-                const imagePath = await this.uploadFile(file);
-                cancion.imagen = imagePath;
-            } else if (file.mimetype === "audio/mpeg") {
-                const mp3Path = await this.uploadSong(file);
-                cancion.mp3 = mp3Path;
-            }
+    @UseInterceptors(FileInterceptor("mp3"))
+    async update(@UploadedFile() mp3: Express.Multer.File, @Param("id") id: number, @Body() cancion: CancionDto): Promise<Cancion> {
+        console.log(mp3);
+        console.log(cancion);
+        if (mp3) {
+            const path = await this.uploadSong(mp3);
+            cancion.mp3 = path;
         }
 
         const cancionActual = await this.cancionService.findById(id);
@@ -84,7 +72,6 @@ export class CancionController {
         return this.cancionService.updateCancion(id, {
             id: cancion.id,
             nombre: cancion.nombre,
-            imagen: cancion.imagen,
             mp3: cancion.mp3,
             artista: artista,
             album: album,
@@ -113,15 +100,16 @@ export class CancionController {
         }
     }
 
-    async uploadSong(file: Express.Multer.File): Promise<string> {
-        if (!file) {
+    async uploadSong(mp3: Express.Multer.File): Promise<string> {
+        console.log(mp3);
+        if (!mp3) {
             console.error("Cancion no recibida");
             throw new BadRequestException("Cancion necesaria");
         }
-        console.log("Cancion recibida:", file.originalname);
+        console.log("Cancion recibida:", mp3.originalname);
 
         try {
-            const result = await SongUtils.upload(file);
+            const result = await SongUtils.upload(mp3);
             console.log("Cancion subida:", result);
             return result;
         } catch (error) {

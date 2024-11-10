@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { ServeStaticModule } from "@nestjs/serve-static";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { CancionController } from "./cancion/cancion.controller";
@@ -14,6 +15,7 @@ import { Artista } from "./artista/artista.model";
 import { Album } from "./album/album.model";
 import { Cancion } from "./cancion/cancion.model";
 import { Genero } from "./genero/genero.model";
+import { join } from "path";
 
 @Module({
     imports: [
@@ -28,20 +30,12 @@ import { Genero } from "./genero/genero.model";
             synchronize: true,
         }),
         TypeOrmModule.forFeature([Artista, Genero, Cancion, Album]),
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, "..", "uploads"),
+            serveRoot: "/public",
+        }),
     ],
-    controllers: [
-        AppController,
-        CancionController,
-        GeneroController,
-        AlbumController,
-        ArtistaController,
-    ],
-    providers: [
-        AppService,
-        GeneroService,
-        CancionService,
-        AlbumService,
-        ArtistaService,
-    ],
+    controllers: [AppController, CancionController, GeneroController, AlbumController, ArtistaController],
+    providers: [AppService, GeneroService, CancionService, AlbumService, ArtistaService],
 })
 export class AppModule {}

@@ -9,8 +9,6 @@ export class Cancion {
     @Column()
     nombre: string;
     @Column()
-    imagen: string;
-    @Column()
     mp3: string;
     @ManyToOne(() => Album, album => album.canciones)
     album: Album;

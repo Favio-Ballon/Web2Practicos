@@ -7,20 +7,18 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     app.useGlobalPipes(new ValidationPipe());
 
-    const uploadDir = "./uploads";
-    if (!existsSync(uploadDir)) {
-        mkdirSync(uploadDir);
-    }
+    app.enableCors({
+        origin: "http://localhost:5173", // Replace with your frontend URL
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        credentials: true,
+    });
 
-    const uploadDir2 = "./uploads/image";
-    if (!existsSync(uploadDir2)) {
-        mkdirSync(uploadDir2);
-    }
-
-    const uploadDir3 = "./uploads/song";
-    if (!existsSync(uploadDir3)) {
-        mkdirSync(uploadDir3);
-    }
+    const uploadDirs = ["./uploads", "./uploads/image", "./uploads/song"];
+    uploadDirs.forEach(dir => {
+        if (!existsSync(dir)) {
+            mkdirSync(dir);
+        }
+    });
 
     await app.listen(3000);
 }

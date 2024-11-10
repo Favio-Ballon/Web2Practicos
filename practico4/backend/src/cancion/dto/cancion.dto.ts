@@ -7,8 +7,6 @@ export class CancionDto {
     @IsNotEmpty()
     readonly nombre: string;
 
-    imagen: string;
-
     mp3: string;
 
     @Transform(({ value }) => parseInt(value, 10))
