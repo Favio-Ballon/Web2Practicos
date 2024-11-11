@@ -1,0 +1,5 @@
+.dropdown-titulo {
+    text-align: center;
+    font-weight: bold;
+    pointer-events: none; /* Make the title non-clickable */
+}

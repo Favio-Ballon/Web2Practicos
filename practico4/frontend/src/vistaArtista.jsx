@@ -3,7 +3,7 @@ import "./App.css";
 import UserHeader from "./components/header";
 import axios from "axios";
 import { useEffect } from "react";
-import { Container, Col, Card, Row, Image, Table } from "react-bootstrap";
+import { Container, Row, Image } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
 function VistaArtista() {
@@ -17,7 +17,7 @@ function VistaArtista() {
     }, []);
 
     useEffect(() => {
-        const hash = window.location.hash.substring(1); // Get the fragment identifier without the '#'
+        const hash = window.location.hash.substring(1); 
         if (hash) {
             const element = document.getElementById(hash);
             if (element) {
@@ -77,7 +77,7 @@ function VistaArtista() {
                                     src={`http://localhost:3000/public/${album?.imagen}`}
                                     style={{ width: "200px", height: "200px", objectFit: "cover", borderTopLeftRadius: "10px", borderTopRightRadius: "10px" }}
                                 />
-                                <div style={{ marginLeft: "20px", alignSelf: "center" }}>
+                                <div id={album.nombre} style={{ marginLeft: "20px", alignSelf: "center" }}>
                                     <p>Album</p>
                                     <h2>{album.nombre}</h2>
                                 </div>
