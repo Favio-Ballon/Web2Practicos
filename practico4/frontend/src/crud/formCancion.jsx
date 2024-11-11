@@ -96,10 +96,6 @@ const FormCancion = () => {
         navigate("/canciones");
     };
 
-    const handleMp3Change = e => {
-        setMp3(e.target.files[0]);
-    };
-
     return (
         <>
             <HeaderAdmin />

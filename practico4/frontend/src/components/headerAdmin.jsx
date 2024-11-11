@@ -23,6 +23,16 @@ function HeaderAdmin() {
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="/genero/create">Crear</NavDropdown.Item>
                             </NavDropdown>
+                            <NavDropdown title="Artista" id="basic-nav-dropdown">
+                                <NavDropdown.Item href="/artista">Lista</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item href="/artista/create">Crear</NavDropdown.Item>
+                            </NavDropdown>
+                            <NavDropdown title="Album" id="basic-nav-dropdown">
+                                <NavDropdown.Item href="/album">Lista</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item href="/album/create">Crear</NavDropdown.Item>
+                            </NavDropdown>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
