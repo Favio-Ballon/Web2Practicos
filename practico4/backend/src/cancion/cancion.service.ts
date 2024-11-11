@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Cancion } from "./cancion.model";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 
 @Injectable()
 export class CancionService {
@@ -9,6 +9,14 @@ export class CancionService {
         @InjectRepository(Cancion)
         private cancionRepository: Repository<Cancion>,
     ) {}
+
+    searchByName(name: string): Promise<Cancion[]> {
+        return this.cancionRepository.find({
+            where: {
+                nombre: Like(`%${name}%`),
+            },
+        });
+    }
 
     findAll(): Promise<Cancion[]> {
         return this.cancionRepository.find({ relations: ["artista", "album"] });

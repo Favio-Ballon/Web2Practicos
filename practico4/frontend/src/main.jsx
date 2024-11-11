@@ -10,6 +10,9 @@ import ListArtista from "./crud/listArtista.jsx";
 import FormArtista from "./crud/formArtista.jsx";
 import ListaAlbums from "./crud/listAlbum.jsx";
 import FormAlbum from "./crud/formAlbum.jsx";
+import App from "./App.jsx";
+import Artistas from "./Artistas.jsx";
+import VistaArtista from "./vistaArtista.jsx";
 
 const router = createBrowserRouter([
     {
@@ -59,6 +62,18 @@ const router = createBrowserRouter([
     {
         path: "/album/create",
         element: <FormAlbum />,
+    },
+    {
+        path: "/",
+        element: <App />,
+    },
+    {
+        path: "/genero/:id",
+        element: <Artistas />,
+    },
+    {
+      path: "/artista/:id",
+      element:<VistaArtista/>,
     },
 ]);
 

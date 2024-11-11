@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Artista } from "./artista.model";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 
 @Injectable()
 export class ArtistaService {
@@ -9,11 +9,20 @@ export class ArtistaService {
         @InjectRepository(Artista)
         private artistaRepository: Repository<Artista>,
     ) {}
+
+    searchByName(name: string): Promise<Artista[]> {
+        return this.artistaRepository.find({
+            where: {
+                nombre: Like(`%${name}%`),
+            },
+        });
+    }
+
     findAll(): Promise<Artista[]> {
         return this.artistaRepository.find({ relations: ["genero", "albums"] });
     }
     findById(id: number): Promise<Artista | null> {
-        return this.artistaRepository.findOne({ where: { id }, relations: ["genero", "albums"] });
+        return this.artistaRepository.findOne({ where: { id }, relations: ["genero", "albums", "albums.canciones"] });
     }
     createArtista(artista: Artista): Promise<Artista> {
         return this.artistaRepository.save(artista);

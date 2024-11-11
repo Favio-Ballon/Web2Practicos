@@ -157,7 +157,6 @@ const FormCancion = () => {
 
                                     <Form.Group>
                                         <Form.Label>Mp3:</Form.Label>
-                                        {/* accepts mp3 */}
                                         <Form.Control type="file" accept="audio/mp3" onChange={e => setMp3(e.target.files[0])} />
                                     </Form.Group>
                                     <Form.Group className="mt-3 text-center">

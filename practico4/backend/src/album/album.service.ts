@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Album } from "./album.model";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 
 @Injectable()
@@ -9,6 +9,14 @@ export class AlbumService {
         @InjectRepository(Album)
         private albumRepository: Repository<Album>,
     ) {}
+
+    searchByName(name: string): Promise<Album[]> {
+        return this.albumRepository.find({
+            where: {
+                nombre: Like(`%${name}%`),
+            },
+        });
+    }
 
     findAll(): Promise<Album[]> {
         return this.albumRepository.find({ relations: ["canciones", "artista"] });

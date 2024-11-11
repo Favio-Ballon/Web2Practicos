@@ -1,3 +1,70 @@
 body {
-  padding-top: 70px; /* Adjust this value based on the height of your navbar */
+  background-color: #212121;
+  color: #FFF;
+  padding-top: 80px; /* Adjust this value based on the height of your navbar */
+}
+
+.genre-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.genre-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+table{
+  background-color: #212121;
+  width: 100%;
+}
+
+thead{
+  border-bottom: solid 1px;
+  border-color: #B3B3B3;
+}
+
+td:first-child{
+  width: 40%;
+}
+
+td{
+  padding: 5px;
+}
+
+.highlight {
+  background-color: #B2B2B2; /* Adjust the highlight color as needed */
+  transition: background-color 0.5s ease;
+}
+
+tr:hover td {
+  background-color: #B2B2B2;
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+}
+
+
+tr:hover td:first-child {
+  background-color: #B2B2B2;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+
+
+}
+
+tr:hover td:last-child {
+  background-color: #B2B2B2;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.reproductor{
+  width: 100%;
+  padding-bottom: 100px;
+}
+
+audio{
+  position: fixed;
+  left: 0%;
+  bottom: 0;
+  width: 100%;
 }
