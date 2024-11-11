@@ -15,6 +15,7 @@ export class CancionService {
             where: {
                 nombre: Like(`%${name}%`),
             },
+            relations: ["artista"],
         });
     }
 

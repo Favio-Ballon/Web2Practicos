@@ -15,6 +15,7 @@ export class AlbumService {
             where: {
                 nombre: Like(`%${name}%`),
             },
+            relations: ["artista"],
         });
     }
 
